@@ -1,12 +1,3 @@
-
-  document
-    .querySelectorAll(".play")
-    .forEach(button => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
           if (!profile) {
 
             openProfile();
@@ -20,19 +11,25 @@
 
 
           message.textContent =
-            `${button.dataset.game} is next to build!`;
+            button.getAttribute(
+              "data-game"
+            ) +
+            " is next to build!";
 
         }
       );
 
-    });
+    }
+  );
 
 
   document
-    .getElementById("viewLeaderboard")
+    .getElementById(
+      "viewLeaderboard"
+    )
     .addEventListener(
       "click",
-      () => {
+      function () {
 
         message.textContent =
           "Full Department Cup coming next!";
@@ -42,10 +39,12 @@
 
 
   document
-    .getElementById("leaderboardNav")
+    .getElementById(
+      "leaderboardNav"
+    )
     .addEventListener(
       "click",
-      () => {
+      function () {
 
         message.textContent =
           "Full Department Cup coming next!";
@@ -59,7 +58,7 @@
 
   if (!profile) {
 
-    setTimeout(
+    window.setTimeout(
       openProfile,
       350
     );
