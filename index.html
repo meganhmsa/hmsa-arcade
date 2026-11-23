@@ -1,3 +1,1192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#04142d">
+
+<title>HMSA Arcade</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --navy: #04142d;
+  --cyan: #31e8ff;
+  --purple: #cf45f2;
+  --pink: #ff5da8;
+  --teal: #32f0d1;
+  --text: #f7fbff;
+  --muted: #b9d3e5;
+}
+
+body {
+  margin: 0;
+  background: #020914;
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* MAIN APP */
+
+.app {
+  min-height: 100vh;
+  max-width: 480px;
+  margin: auto;
+  padding: 24px 16px 100px;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(91,61,189,.35),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      #04142d,
+      #08214b 58%,
+      #04132b
+    );
+}
+
+/* HEADER */
+
+.hero {
+  position: relative;
+  text-align: center;
+}
+
+.turtle-image {
+  display: block;
+  width: 135px;
+  height: 135px;
+  object-fit: contain;
+  margin: 0 auto -12px;
+
+  filter:
+    drop-shadow(
+      0 0 16px rgba(49,232,255,.45)
+    );
+}
+
+.speech {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+
+  padding: 7px 10px;
+
+  border: 2px solid var(--cyan);
+  border-radius: 14px;
+
+  background: rgba(3,19,41,.9);
+
+  color: var(--cyan);
+
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: 900;
+
+  box-shadow:
+    0 0 14px rgba(49,232,255,.3);
+}
+
+.logo {
+  margin: 2px 0 0;
+
+  color: #62eaff;
+
+  font-family: monospace;
+  font-size: 48px;
+  font-weight: 900;
+  line-height: .82;
+
+  letter-spacing: -4px;
+
+  text-shadow:
+    0 0 14px rgba(41,220,255,.55);
+}
+
+.logo span {
+  display: block;
+
+  background:
+    linear-gradient(
+      #f45bec,
+      #ffb24d
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent;
+}
+
+.tagline {
+  margin: 16px 0 20px;
+
+  color: #79eaff;
+
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.7px;
+}
+
+/* PLAYER PROFILE */
+
+.profile {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 12px 13px;
+
+  border:
+    1px solid rgba(53,223,255,.6);
+
+  border-radius: 16px;
+
+  background:
+    rgba(7,25,54,.92);
+
+  box-shadow:
+    0 0 15px rgba(43,223,255,.15);
+}
+
+.avatar {
+  color: var(--cyan);
+  font-size: 24px;
+}
+
+.profile-info {
+  flex: 1;
+  text-align: left;
+}
+
+.profile-info strong {
+  display: block;
+  font-size: 14px;
+}
+
+.profile-info small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.edit {
+  padding: 8px 13px;
+
+  border: 1px solid #238fda;
+  border-radius: 999px;
+
+  background: #0a396a;
+  color: white;
+
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* GAME CARDS */
+
+.games {
+  display: grid;
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap: 9px;
+
+  margin-top: 15px;
+}
+
+.game {
+  --accent: #22bdff;
+
+  min-width: 0;
+
+  padding: 13px 7px 10px;
+
+  border:
+    1.5px solid var(--accent);
+
+  border-radius: 16px;
+
+  background:
+    rgba(7,22,47,.96);
+
+  color: white;
+
+  text-align: center;
+
+  box-shadow:
+    0 0 15px
+    rgba(30,185,255,.16);
+}
+
+.game:nth-child(2) {
+  --accent: #cf45f2;
+}
+
+.game:nth-child(3) {
+  --accent: #21d7b7;
+}
+
+.game-icon {
+  color: var(--accent);
+  font-size: 28px;
+}
+
+.game h2 {
+  min-height: 46px;
+
+  margin: 9px 0 6px;
+
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.05;
+}
+
+.game p {
+  min-height: 40px;
+
+  margin: 0;
+
+  color: #cbd8e6;
+
+  font-size: 10px;
+  line-height: 1.3;
+}
+
+.time {
+  margin-top: 9px;
+
+  color: var(--accent);
+
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.play {
+  width: 100%;
+
+  margin-top: 9px;
+  padding: 9px 3px;
+
+  border: 0;
+  border-radius: 10px;
+
+  background:
+    var(--accent);
+
+  color: white;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 0 12px var(--accent);
+}
+
+/* AI JEOPARDY */
+
+.live {
+  display: flex;
+  align-items: center;
+  justify-content:
+    space-between;
+
+  gap: 10px;
+
+  margin-top: 15px;
+  padding: 14px;
+
+  border: 1px solid #ff8b78;
+
+  border-radius: 15px;
+
+  background:
+    linear-gradient(
+      110deg,
+      rgba(255,85,152,.12),
+      rgba(112,63,203,.15)
+    );
+}
+
+.live strong {
+  font-family: monospace;
+  font-size: 15px;
+}
+
+.live small {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #bfeaff;
+
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+.next-game {
+  white-space: nowrap;
+
+  text-align: right;
+
+  color: #ffc45f;
+
+  font-size: 10px;
+  font-weight: 900;
+}
+
+/* LEADERBOARD */
+
+.leaderboard {
+  margin-top: 13px;
+  padding: 13px;
+
+  border: 1px solid #21466e;
+  border-radius: 15px;
+
+  background:
+    rgba(3,21,46,.93);
+}
+
+.leader-header {
+  display: flex;
+  align-items: center;
+
+  justify-content:
+    space-between;
+
+  margin-bottom: 8px;
+}
+
+.leader-header h3 {
+  margin: 0;
+  font-size: 13px;
+}
+
+.view {
+  border: 0;
+  background: transparent;
+
+  color: var(--cyan);
+
+  font-size: 10px;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+.leader-row {
+  display: grid;
+
+  grid-template-columns:
+    22px 1fr auto;
+
+  gap: 8px;
+
+  padding: 8px 0;
+
+  border-top:
+    1px solid #153354;
+
+  font-size: 11px;
+}
+
+.leader-row strong {
+  color: #65eaff;
+}
+
+/* NAV */
+
+.nav {
+  position: fixed;
+
+  left: 50%;
+  bottom: 0;
+
+  transform:
+    translateX(-50%);
+
+  width:
+    min(480px,100%);
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  padding: 12px;
+
+  border-top:
+    1px solid #165076;
+
+  background:
+    rgba(3,19,41,.97);
+}
+
+.nav button {
+  border: 0;
+  background: transparent;
+
+  color: #8da9c0;
+
+  font-size: 11px;
+  font-weight: 900;
+
+  cursor: pointer;
+}
+
+.nav .active {
+  color: var(--cyan);
+}
+
+.nav-icon {
+  display: block;
+
+  margin-bottom: 3px;
+
+  font-size: 22px;
+}
+
+/* PROFILE MODAL */
+
+.modal {
+  display: none;
+
+  position: fixed;
+  inset: 0;
+
+  z-index: 20;
+
+  background:
+    rgba(0,0,0,.72);
+
+  place-items:
+    end center;
+}
+
+.modal.open {
+  display: grid;
+}
+
+.sheet {
+  width:
+    min(480px,100%);
+
+  padding: 22px;
+
+  border:
+    1px solid var(--cyan);
+
+  border-radius:
+    24px 24px 0 0;
+
+  background:
+    #071b38;
+}
+
+.sheet h2 {
+  margin-top: 0;
+}
+
+.field {
+  margin: 12px 0;
+}
+
+.field label {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #bdefff;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.field input,
+.field select {
+  width: 100%;
+
+  padding: 12px;
+
+  border:
+    1px solid #35618a;
+
+  border-radius: 11px;
+
+  background: #031329;
+  color: white;
+
+  font-size: 16px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+
+  margin-top: 16px;
+}
+
+.actions button {
+  flex: 1;
+
+  padding: 12px;
+
+  border:
+    1px solid var(--cyan);
+
+  border-radius: 11px;
+
+  background: #0b3969;
+  color: white;
+
+  font-weight: 900;
+
+  cursor: pointer;
+}
+
+.actions .save {
+  border: 0;
+
+  background:
+    #08aacd;
+}
+
+.message {
+  min-height: 20px;
+
+  margin-top: 10px;
+
+  color: #69f5dc;
+
+  text-align: center;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+@media
+(max-width:370px) {
+
+  .games {
+    gap: 6px;
+  }
+
+  .game {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .game h2 {
+    font-size: 12px;
+  }
+
+  .turtle-image {
+    width: 115px;
+    height: 115px;
+  }
+}
+</style>
+</head>
+
+
+<body>
+
+<main class="app">
+
+<header class="hero">
+
+<img
+  class="turtle-image"
+  src="./hmsa-arcade-turtle.png"
+  alt="HMSA Arcade turtle mascot"
+>
+
+<span class="speech">
+ALOHA,<br>
+HUMAN!
+</span>
+
+<h1 class="logo">
+HMSA
+<span>ARCADE</span>
+</h1>
+
+<div class="tagline">
+PLAY • LEARN • EXPLORE • TOGETHER
+</div>
+
+</header>
+
+
+<section class="profile">
+
+<div class="avatar">
+◎
+</div>
+
+<div class="profile-info">
+
+<strong id="hello">
+Aloha, Player!
+</strong>
+
+<small id="departmentLabel">
+Choose nickname + department
+</small>
+
+</div>
+
+<button
+class="edit"
+id="editProfile"
+type="button">
+✎ Edit
+</button>
+
+</section>
+
+
+<section class="games">
+
+<article class="game">
+
+<div class="game-icon">
+◉
+</div>
+
+<h2>
+HUMAN<br>
+OR AI?
+</h2>
+
+<p>
+Can you spot what's real?
+</p>
+
+<div class="time">
+◷ ~ 2 MIN
+</div>
+
+<button
+class="play"
+data-game="Human or AI?"
+type="button">
+PLAY ›
+</button>
+
+</article>
+
+
+<article class="game">
+
+<div class="game-icon">
+⚡
+</div>
+
+<h2>
+AI LIGHTNING<br>
+ROUND
+</h2>
+
+<p>
+60 seconds.
+No pressure.
+</p>
+
+<div class="time">
+◷ ~ 1 MIN
+</div>
+
+<button
+class="play"
+data-game="AI Lightning Round"
+type="button">
+PLAY ›
+</button>
+
+</article>
+
+
+<article class="game">
+
+<div class="game-icon">
+▤
+</div>
+
+<h2>
+PROMPT<br>
+BATTLE
+</h2>
+
+<p>
+Can you speak AI?
+</p>
+
+<div class="time">
+◷ ~ 3 MIN
+</div>
+
+<button
+class="play"
+data-game="Prompt Battle"
+type="button">
+PLAY ›
+</button>
+
+</article>
+
+</section>
+
+
+<section class="live">
+
+<div>
+
+<strong>
+🏆 AI JEOPARDY
+</strong>
+
+<small>
+LIVE GAME ON THE BIG SCREEN
+<br>
+Join when the host starts!
+</small>
+
+</div>
+
+<div class="next-game">
+
+NEXT GAME
+<br>
+◷ 11:00 AM
+
+</div>
+
+</section>
+
+
+<section class="leaderboard">
+
+<div class="leader-header">
+
+<h3>
+🏆 DEPARTMENT CUP
+</h3>
+
+<button
+class="view"
+id="viewLeaderboard"
+type="button">
+
+VIEW ALL ›
+
+</button>
+
+</div>
+
+
+<div class="leader-row">
+
+<span>
+1
+</span>
+
+<span>
+IT
+</span>
+
+<strong>
+8,420
+</strong>
+
+</div>
+
+
+<div class="leader-row">
+
+<span>
+2
+</span>
+
+<span>
+Corporate Communications
+</span>
+
+<strong>
+7,960
+</strong>
+
+</div>
+
+
+<div class="leader-row">
+
+<span>
+3
+</span>
+
+<span>
+Customer Experience
+</span>
+
+<strong>
+7,810
+</strong>
+
+</div>
+
+</section>
+
+
+<div
+id="message"
+class="message"
+aria-live="polite">
+</div>
+
+</main>
+
+
+<nav class="nav">
+
+<button
+class="active"
+type="button">
+
+<span class="nav-icon">
+⌂
+</span>
+
+HOME
+
+</button>
+
+
+<button
+id="leaderboardNav"
+type="button">
+
+<span class="nav-icon">
+♜
+</span>
+
+LEADERBOARD
+
+</button>
+
+</nav>
+
+
+<div
+id="profileModal"
+class="modal">
+
+<form
+id="profileForm"
+class="sheet">
+
+<h2>
+Player profile
+</h2>
+
+
+<div class="field">
+
+<label for="nickname">
+Nickname
+</label>
+
+<input
+id="nickname"
+maxlength="18"
+placeholder="Megan"
+autocomplete="off">
+
+</div>
+
+
+<div class="field">
+
+<label for="department">
+Department
+</label>
+
+<select id="department">
+
+<option value="">
+Choose department
+</option>
+
+<option>
+Corporate Communications
+</option>
+
+<option>
+Customer Experience
+</option>
+
+<option>
+Finance
+</option>
+
+<option>
+IT
+</option>
+
+<option>
+Medicare Programs
+</option>
+
+<option>
+People & Culture
+</option>
+
+<option>
+Sales
+</option>
+
+<option>
+Other
+</option>
+
+</select>
+
+</div>
+
+
+<div class="actions">
+
+<button
+id="cancelProfile"
+type="button">
+Cancel
+</button>
+
+<button
+class="save"
+type="submit">
+Save
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+
+<script>
+
+(function () {
+
+  var modal =
+    document.getElementById(
+      "profileModal"
+    );
+
+  var nicknameInput =
+    document.getElementById(
+      "nickname"
+    );
+
+  var departmentInput =
+    document.getElementById(
+      "department"
+    );
+
+  var hello =
+    document.getElementById(
+      "hello"
+    );
+
+  var departmentLabel =
+    document.getElementById(
+      "departmentLabel"
+    );
+
+  var message =
+    document.getElementById(
+      "message"
+    );
+
+  var editProfile =
+    document.getElementById(
+      "editProfile"
+    );
+
+  var cancelProfile =
+    document.getElementById(
+      "cancelProfile"
+    );
+
+  var profileForm =
+    document.getElementById(
+      "profileForm"
+    );
+
+  var profile = null;
+
+
+  try {
+
+    profile =
+      JSON.parse(
+        localStorage.getItem(
+          "hmsaArcadeProfile"
+        )
+      );
+
+  } catch (error) {
+
+    profile = null;
+
+  }
+
+
+  function renderProfile() {
+
+    if (!profile) {
+
+      hello.textContent =
+        "Aloha, Player!";
+
+      departmentLabel.textContent =
+        "Choose nickname + department";
+
+      return;
+
+    }
+
+
+    hello.textContent =
+      "Aloha, " +
+      profile.nickname +
+      "!";
+
+
+    departmentLabel.textContent =
+      profile.department;
+
+  }
+
+
+  function openProfile() {
+
+    if (profile) {
+
+      nicknameInput.value =
+        profile.nickname;
+
+      departmentInput.value =
+        profile.department;
+
+    }
+
+
+    modal.classList.add(
+      "open"
+    );
+
+  }
+
+
+  function closeProfile() {
+
+    modal.classList.remove(
+      "open"
+    );
+
+  }
+
+
+  editProfile.addEventListener(
+    "click",
+    openProfile
+  );
+
+
+  cancelProfile.addEventListener(
+    "click",
+    closeProfile
+  );
+
+
+  profileForm.addEventListener(
+    "submit",
+    function (event) {
+
+      event.preventDefault();
+
+
+      var nickname =
+        nicknameInput.value.trim();
+
+      var department =
+        departmentInput.value;
+
+
+      if (
+        nickname === "" ||
+        department === ""
+      ) {
+
+        message.textContent =
+          "Add a nickname and department.";
+
+        return;
+
+      }
+
+
+      profile = {
+
+        nickname: nickname,
+
+        department: department
+
+      };
+
+
+      localStorage.setItem(
+        "hmsaArcadeProfile",
+        JSON.stringify(profile)
+      );
+
+
+      renderProfile();
+
+      closeProfile();
+
+
+      message.textContent =
+        "Profile saved!";
+
+    }
+  );
+
+
+  var gameButtons =
+    document.querySelectorAll(
+      ".play"
+    );
+
+
+  gameButtons.forEach(
+    function (button) {
+
+      button.addEventListener(
+        "click",
+        function () {
+
           if (!profile) {
 
             openProfile();
