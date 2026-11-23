@@ -1,0 +1,74 @@
+
+  document
+    .querySelectorAll(".play")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          if (!profile) {
+
+            openProfile();
+
+            message.textContent =
+              "Create your player profile first.";
+
+            return;
+
+          }
+
+
+          message.textContent =
+            `${button.dataset.game} is next to build!`;
+
+        }
+      );
+
+    });
+
+
+  document
+    .getElementById("viewLeaderboard")
+    .addEventListener(
+      "click",
+      () => {
+
+        message.textContent =
+          "Full Department Cup coming next!";
+
+      }
+    );
+
+
+  document
+    .getElementById("leaderboardNav")
+    .addEventListener(
+      "click",
+      () => {
+
+        message.textContent =
+          "Full Department Cup coming next!";
+
+      }
+    );
+
+
+  renderProfile();
+
+
+  if (!profile) {
+
+    setTimeout(
+      openProfile,
+      350
+    );
+
+  }
+
+})();
+
+</script>
+
+</body>
+</html>
